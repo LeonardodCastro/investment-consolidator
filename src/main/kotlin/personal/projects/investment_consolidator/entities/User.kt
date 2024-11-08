@@ -1,4 +1,4 @@
-package personal.projects.investment_consolidator.entity
+package personal.projects.investment_consolidator.entities
 
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
