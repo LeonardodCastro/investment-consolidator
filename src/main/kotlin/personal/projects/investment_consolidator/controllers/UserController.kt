@@ -19,6 +19,10 @@ class UserController(
     val userService: UserService
 ) {
 
+    @GetMapping
+    fun getAllUser(): ResponseEntity<List<GetUserResponse>> {
+        return ResponseEntity.ok(userService.getAllUsers())
+    }
 
     @GetMapping("/{userId}")
     fun getUserById(@PathVariable userId: UUID): ResponseEntity<GetUserResponse> {

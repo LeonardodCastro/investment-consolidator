@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import personal.projects.investment_consolidator.controllers.response.CreateUserResponse
 import personal.projects.investment_consolidator.controllers.request.CreateUserRequest
 import personal.projects.investment_consolidator.controllers.response.GetUserResponse
+import personal.projects.investment_consolidator.entities.User
 import personal.projects.investment_consolidator.mappers.toCreateResponse
 import personal.projects.investment_consolidator.mappers.toEntity
 import personal.projects.investment_consolidator.mappers.toGetUserResponse
@@ -20,8 +21,15 @@ class UserService(
     }
 
     fun getUserById(userId: UUID): GetUserResponse {
-        val user = userRepository.getReferenceById(userId);
+        val user = userRepository.getReferenceById(userId)
         return user.toGetUserResponse()
+    }
+
+    fun getAllUsers(): List<GetUserResponse>? {
+        val users: MutableList<User> = userRepository.findAll()
+       return users.map {
+           user -> user.toGetUserResponse()
+       }
     }
 
 }
