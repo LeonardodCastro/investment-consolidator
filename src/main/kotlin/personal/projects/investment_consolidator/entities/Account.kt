@@ -17,5 +17,9 @@ class Account(
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    val user: User
+    val user: User,
+
+    @OneToOne(mappedBy = "account")
+    @PrimaryKeyJoinColumn
+    val billingAddress: BillingAddress
 )
