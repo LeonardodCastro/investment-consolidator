@@ -41,4 +41,10 @@ class UserService(
             userRepository.save(user)
         }
     }
+
+    fun deleteById(userId: UUID) {
+        userRepository.findById(userId).ifPresent {
+            userRepository.deleteById(userId)
+        }
+    }
 }

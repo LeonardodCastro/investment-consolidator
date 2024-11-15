@@ -1,6 +1,7 @@
 package personal.projects.investment_consolidator.controllers
 
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -42,5 +43,10 @@ class UserController(
         @RequestBody updatedUserRequest: UpdateUserRequest
     ): ResponseEntity<Unit> {
         return ResponseEntity.ok(userService.updateUser(userId, updatedUserRequest))
+    }
+
+    @DeleteMapping("/{userId}")
+    fun deleteUserById(@PathVariable("userId") userId: UUID): ResponseEntity<Unit> {
+        return ResponseEntity.ok(userService.deleteById(userId))
     }
 }
