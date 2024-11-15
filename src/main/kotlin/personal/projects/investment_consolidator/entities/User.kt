@@ -28,5 +28,8 @@ class User (
     val creationTimestamp: Instant,
 
     @UpdateTimestamp
-    val updatedTimestamp: Instant
+    val updatedTimestamp: Instant,
+
+    @OneToMany(mappedBy = "user")
+    val accounts: List<Account>
 )
