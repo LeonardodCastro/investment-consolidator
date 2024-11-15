@@ -21,5 +21,8 @@ class Account(
 
     @OneToOne(mappedBy = "account")
     @PrimaryKeyJoinColumn
-    val billingAddress: BillingAddress
+    val billingAddress: BillingAddress,
+
+    @OneToMany(mappedBy = "account")
+    val accountStocks: List<AccountStock>
 )

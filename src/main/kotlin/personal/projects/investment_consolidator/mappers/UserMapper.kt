@@ -14,7 +14,8 @@ fun CreateUserRequest.toEntity(): User {
         email = this.email,
         password = this.password,
         creationTimestamp = Instant.now(),
-        updatedTimestamp = Instant.now()
+        updatedTimestamp = Instant.now(),
+        accounts = listOf() // fixme: should be empty?
     )
 }
 
