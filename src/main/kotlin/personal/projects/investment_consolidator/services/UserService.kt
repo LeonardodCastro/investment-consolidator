@@ -3,6 +3,7 @@ package personal.projects.investment_consolidator.services
 import org.springframework.stereotype.Service
 import personal.projects.investment_consolidator.controllers.response.CreateUserResponse
 import personal.projects.investment_consolidator.controllers.request.CreateUserRequest
+import personal.projects.investment_consolidator.controllers.request.UpdateUserRequest
 import personal.projects.investment_consolidator.controllers.response.GetUserResponse
 import personal.projects.investment_consolidator.entities.User
 import personal.projects.investment_consolidator.mappers.toCreateResponse
@@ -32,4 +33,12 @@ class UserService(
        }
     }
 
+    fun updateUser(userId: UUID, updateUserRequest: UpdateUserRequest) {
+        userRepository.findById(userId).ifPresent { user ->
+            updateUserRequest.username?.let { user.username = it }
+            updateUserRequest.password?.let { user.password = it }
+
+            userRepository.save(user)
+        }
+    }
 }
