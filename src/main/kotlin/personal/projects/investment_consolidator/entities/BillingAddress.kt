@@ -1,5 +1,6 @@
 package personal.projects.investment_consolidator.entities
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -17,7 +18,7 @@ class BillingAddress (
     @Column(name = "account_id")
     val id: UUID,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.ALL])
     @MapsId
     @JoinColumn(name = "account_id")
     val account: Account,

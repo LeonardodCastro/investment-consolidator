@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import personal.projects.investment_consolidator.controllers.request.CreateAccountRequest
 import personal.projects.investment_consolidator.controllers.request.CreateUserRequest
 import personal.projects.investment_consolidator.controllers.request.UpdateUserRequest
 import personal.projects.investment_consolidator.controllers.response.CreateUserResponse
@@ -48,5 +49,12 @@ class UserController(
     @DeleteMapping("/{userId}")
     fun deleteUserById(@PathVariable("userId") userId: UUID): ResponseEntity<Unit> {
         return ResponseEntity.ok(userService.deleteById(userId))
+    }
+
+    @PostMapping("/{userId}/account")
+    fun createUserAccount(@PathVariable("userId") userId: UUID,
+                          @RequestBody createAccountRequest: CreateAccountRequest
+    ): ResponseEntity<Unit> {
+        return ResponseEntity.ok(userService.createAccount(userId,createAccountRequest))
     }
 }

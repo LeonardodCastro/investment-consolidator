@@ -19,9 +19,9 @@ class Account(
     @JoinColumn(name = "user_id")
     val user: User,
 
-    @OneToOne(mappedBy = "account")
+    @OneToOne(cascade = [CascadeType.ALL], mappedBy = "account")
     @PrimaryKeyJoinColumn
-    val billingAddress: BillingAddress,
+    var billingAddress: BillingAddress?,
 
     @OneToMany(mappedBy = "account")
     val accountStocks: List<AccountStock>
