@@ -14,6 +14,7 @@ import personal.projects.investment_consolidator.controllers.request.CreateUserR
 import personal.projects.investment_consolidator.controllers.request.UpdateUserRequest
 import personal.projects.investment_consolidator.controllers.response.CreateUserResponse
 import personal.projects.investment_consolidator.controllers.response.GetUserResponse
+import personal.projects.investment_consolidator.controllers.response.UserAccountResponse
 import personal.projects.investment_consolidator.services.UserService
 import java.util.UUID
 
@@ -56,5 +57,11 @@ class UserController(
                           @RequestBody createAccountRequest: CreateAccountRequest
     ): ResponseEntity<Unit> {
         return ResponseEntity.ok(userService.createAccount(userId,createAccountRequest))
+    }
+
+    @GetMapping("/{userId}/accounts")
+    fun listUserAccounts(@PathVariable("userId") userId: UUID,
+    ): ResponseEntity<List<UserAccountResponse>> {
+        return ResponseEntity.ok(userService.listAccounts(userId))
     }
 }

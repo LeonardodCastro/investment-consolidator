@@ -8,6 +8,7 @@ import personal.projects.investment_consolidator.controllers.response.CreateUser
 import personal.projects.investment_consolidator.controllers.request.CreateUserRequest
 import personal.projects.investment_consolidator.controllers.request.UpdateUserRequest
 import personal.projects.investment_consolidator.controllers.response.GetUserResponse
+import personal.projects.investment_consolidator.controllers.response.UserAccountResponse
 import personal.projects.investment_consolidator.entities.Account
 import personal.projects.investment_consolidator.entities.BillingAddress
 import personal.projects.investment_consolidator.entities.User
@@ -80,5 +81,14 @@ class UserService(
         account.billingAddress = billingAddress
 
         accountRepository.save(account)
+    }
+
+    fun listAccounts(userId: UUID): List<UserAccountResponse>? {
+        val user = userRepository.findById(userId).orElseThrow {
+            ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+        return user.accounts.map {
+            account -> UserAccountResponse(account.accountId,account.description)
+        }
     }
 }
