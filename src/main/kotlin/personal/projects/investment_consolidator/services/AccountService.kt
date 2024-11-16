@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import personal.projects.investment_consolidator.controllers.request.AssociateStockRequest
+import personal.projects.investment_consolidator.controllers.response.AccountStockResponse
 import personal.projects.investment_consolidator.entities.AccountStock
 import personal.projects.investment_consolidator.entities.AccountStockId
 import personal.projects.investment_consolidator.repositories.AccountRepository
@@ -31,6 +32,15 @@ class AccountService(
         val accountStock = AccountStock(id, account, stock, associateStockRequest.quantity)
 
         accountStockRepository.save(accountStock)
+    }
+
+    fun listStocks(accountId: UUID): List<AccountStockResponse>? {
+        val account = accountRepository.findById(accountId).orElseThrow {
+            ResponseStatusException(HttpStatus.NOT_FOUND)
+        }
+        return account.accountStocks.map { accountStock ->
+            AccountStockResponse(accountStock.stock.stockId, accountStock.quantity, 0.00)
+        }
     }
 
 
