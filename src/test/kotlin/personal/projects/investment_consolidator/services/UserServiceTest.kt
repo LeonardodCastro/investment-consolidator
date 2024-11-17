@@ -38,7 +38,7 @@ class UserServiceTest {
         val userRequest = buildCreateUserRequest()
         val userSlot = slot<User>()
 
-        every { userRepository.save(capture(userSlot)) } returns userRequest.toEntity()
+        every { userRepository.save(capture(userSlot)) } returns buildUserEntity()
         val userCreated = userService.create(userRequest)
 
         val userCaptured = userSlot.captured
@@ -48,7 +48,31 @@ class UserServiceTest {
         assertEquals(userRequest.email, userCaptured.email)
         assertEquals(userRequest.password, userCaptured.password)
 
-        verify(exactly = 1) { userRepository.save(any()) }
+        verify(exactly = 1) { userRepository.save(userCaptured) }
+    }
+
+    @Test
+    fun `should find an user by given id successfully`() {
+        val idSlot = slot<UUID>()
+        val expectedUser = buildUserEntity()
+        every { userRepository.getReferenceById(capture(idSlot)) } returns expectedUser
+
+        val inputId = UUID.randomUUID()
+        val userFound = userService.getUserById(inputId)
+
+        val idCaptured = idSlot.captured
+
+        assertNotNull(userFound)
+        assertEquals(inputId, idCaptured)
+        assertEquals(userFound.email, expectedUser.email)
+        assertEquals(userFound.password, expectedUser.password)
+        assertEquals(userFound.username, expectedUser.username)
+
+        verify(exactly = 1) { userRepository.getReferenceById(idCaptured) }
+    }
+
+    private fun buildUserEntity(): User {
+        return buildCreateUserRequest().toEntity()
     }
 
     private fun buildCreateUserRequest(): CreateUserRequest {
