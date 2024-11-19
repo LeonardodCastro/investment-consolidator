@@ -6,9 +6,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.slot
 import io.mockk.verify
+import jakarta.persistence.EntityNotFoundException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import personal.projects.investment_consolidator.controllers.request.CreateUserRequest
 import personal.projects.investment_consolidator.entities.User
 import personal.projects.investment_consolidator.mappers.toEntity
@@ -70,6 +73,21 @@ class UserServiceTest {
 
         verify(exactly = 1) { userRepository.getReferenceById(idCaptured) }
     }
+
+    @Test
+    fun `should throw exception when repository fails`() {
+        val userId = UUID.randomUUID()
+        every { userRepository.getReferenceById(userId) } throws EntityNotFoundException()
+
+        assertThrows<EntityNotFoundException> {
+            userService.getUserById(userId)
+        }
+
+        verify(exactly = 1) { userRepository.getReferenceById(userId) }
+
+    }
+
+
 
     private fun buildUserEntity(): User {
         return buildCreateUserRequest().toEntity()
