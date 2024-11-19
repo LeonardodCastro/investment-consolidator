@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import personal.projects.investment_consolidator.controllers.request.CreateUserRequest
@@ -101,8 +102,23 @@ class UserServiceTest {
             val usersFound = userService.getAllUsers()
 
             assertEquals(expectedUsers[0].username, usersFound!![0].username)
+
+            verify(exactly = 1) { userRepository.findAll() }
         }
 
+        @Test
+        fun `should return empty list when findAll not found`() {
+
+            val expectedList = listOf<User>()
+            every { userRepository.findAll() } returns expectedList
+
+            val usersFound = assertDoesNotThrow { userService.getAllUsers() }
+
+            assertNotNull(usersFound)
+            assertTrue(usersFound!!.isEmpty())
+
+            verify(exactly = 1) { userRepository.findAll() }
+        }
     }
 
 
