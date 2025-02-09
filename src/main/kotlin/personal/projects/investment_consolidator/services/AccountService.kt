@@ -26,11 +26,11 @@ class AccountService(
     lateinit var TOKEN: String
 
     fun associate(accountId: UUID, associateStockRequest: AssociateStockRequest) {
-        var account = accountRepository.findById(accountId).orElseThrow {
+        val account = accountRepository.findById(accountId).orElseThrow {
             ResponseStatusException(HttpStatus.NOT_FOUND)
         }
 
-        var stock = stockRepository.findById(associateStockRequest.stockId).orElseThrow{
+        val stock = stockRepository.findById(associateStockRequest.stockId).orElseThrow{
             ResponseStatusException(HttpStatus.NOT_FOUND)
         }
 
