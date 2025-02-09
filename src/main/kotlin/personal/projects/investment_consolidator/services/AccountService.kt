@@ -23,7 +23,7 @@ class AccountService(
 ) {
 
     @Value("\${TOKEN}")
-    lateinit var TOKEN: String
+    lateinit var token: String
 
     fun associate(accountId: UUID, associateStockRequest: AssociateStockRequest) {
         val account = accountRepository.findById(accountId).orElseThrow {
@@ -52,7 +52,7 @@ class AccountService(
     }
 
     private fun getTotal(quantity: Int, stockId: String): Double {
-        val results = brapiClient.getStockPrice(stockId, TOKEN).results
+        val results = brapiClient.getStockPrice(stockId, token).results
         return results.ifEmpty {
             return 0.00
         } .first().regularMarketPrice * quantity
