@@ -122,7 +122,6 @@ class UserServiceTest {
     }
 
 
-
     private fun buildUserEntity(): User {
         return buildCreateUserRequest().toEntity()
     }
