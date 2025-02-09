@@ -52,7 +52,7 @@ class AccountService(
     }
 
     private fun getTotal(quantity: Int, stockId: String): Double {
-        val results = brapiClient.getStockPrice(TOKEN, stockId).results
+        val results = brapiClient.getStockPrice(stockId, TOKEN).results
         return results.ifEmpty {
             return 0.00
         } .first().regularMarketPrice * quantity
